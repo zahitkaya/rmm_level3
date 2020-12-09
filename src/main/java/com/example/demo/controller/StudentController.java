@@ -5,24 +5,11 @@ import com.example.demo.services.StudentService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.core.ControllerEntityLinks;
-import org.springframework.hateoas.server.mvc.ControllerLinkRelationProvider;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -50,9 +37,9 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public HttpEntity<List<Student>> getAllStudents() {
+    public  HttpEntity<List<Student>> getAllStudents() {
         var student = studentService.getAllStudents();
-        return new ResponseEntity<>(student, HttpStatus.OK);
+        return new ResponseEntity<>(student,HttpStatus.OK);
     }
 
     @GetMapping("/students/{id}")

@@ -1,10 +1,6 @@
 package com.example.demo.model;
 
 import com.example.demo.controller.StudentController;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.hateoas.Link;
@@ -16,27 +12,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@Getter
-@Setter
+@Data
 @FieldDefaults(level=AccessLevel.PRIVATE)
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @Builder
-@ToString
-public class Student  implements Serializable {
+public class Student extends RepresentationModel<Student> implements Serializable {
 
     int id;
     String name;
     String address;
     double gpa;
 
+     static List<Link> links=new ArrayList<>();
 
-     static List<Link> links = new ArrayList<>();
-
+    @Override
      public Links getLinks() {
-         links.removeAll(links);
          Link[] embeddedLinks = new Link[]{
                 linkTo(methodOn(StudentController.class).addStudent(null)).withRel("Student").withType("POST").withDeprecation("GetPost"),
                 linkTo(methodOn(StudentController.class).updateStudent(null)).withRel("Student").withType("PUT"),
@@ -45,8 +39,10 @@ public class Student  implements Serializable {
 
 
         };
+
         links.addAll(Arrays.asList(embeddedLinks));
-        return Links.of(this.links);
+
+         return Links.of(this.links);
     }
     /*
     @JsonRawValue
